@@ -17,7 +17,7 @@
 import webapp2
 import jinja2
 import os
-from google.appengine.txt import db
+from google.appengine.ext import db
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir), autoescape = True)
@@ -49,8 +49,8 @@ class NewPost(webapp2.RequestHandler):
             self.response.write(content)
 
 class Posts(webapp2.RequestHandler):  #database of previous and newly added posts
-    title = db.StringProperty(Required=True)
-    post_body = db.TextProperty(Required=True)
+    title = db.StringProperty(required=True)
+    post_body = db.TextProperty(required=True)
     created = db.DateTimeProperty(auto_now_add = True)
 
 class RecentPosts(webapp2.RequestHandler):
