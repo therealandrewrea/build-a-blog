@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 import webapp2
-import jinja
+import jinja2
 import os
 from google.appengine.txt import db
 
