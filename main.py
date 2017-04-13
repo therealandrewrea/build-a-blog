@@ -41,14 +41,14 @@ class NewPost(webapp2.RequestHandler):
             post = Posts(title=title, post_body=post_body) #uses database class to generate a new entry in DB with this title and post_body
             post.put() #adds to database
             perm = str(post.key().id())
-            self.redirect("/blog"+perm)
+            self.redirect("/blog/"+perm)
         else:
             error = "Whoops, you left something out"
             new = jinja_env.get_template("newpost.html")
             content = new.render(title=title, post_body = post_body, error=error) #passes any title and body entered along with applicable error message into newpost template
             self.response.write(content)
 
-class Posts(webapp2.RequestHandler):  #database of previous and newly added posts
+class Posts(db.Model):  #database of previous and newly added posts
     title = db.StringProperty(required=True)
     post_body = db.TextProperty(required=True)
     created = db.DateTimeProperty(auto_now_add = True)
@@ -56,9 +56,9 @@ class Posts(webapp2.RequestHandler):  #database of previous and newly added post
 class RecentPosts(webapp2.RequestHandler):
     def get(self):
         query = Posts.all().order("-created") #query database to identify db entries in order of creation
-        recent_posts = query.fetch(limit = 5) #assign the most recent 5 to the recent_posts variable
-        r = jinja_env.get_template("post.html") #get dat template
-        content = r.render(post = unique_post) #render, passing in this info
+        recent_post = query.fetch(limit = 5) #assign the most recent 5 to the recent_posts variable
+        r = jinja_env.get_template("frontpage.html") #get dat template
+        content = r.render(post = recent_post) #render, passing in this info
         self.response.write(content)
 
 class ViewPostHandler(webapp2.RequestHandler):
