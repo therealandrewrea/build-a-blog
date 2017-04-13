@@ -4,12 +4,13 @@
 <h1>Blog</h1>
 <a href="/newpost">New Post</a>
 
-<h4>Recent Posts</h4?
+<h4>Recent Posts</h4>
 
-{% for post in Posts %}
+{% for post in posts %}
   <div class="post">
     <div class="post-title"><a href="/blog/{{ post.key().id() }}">{{ post.title }}</a></div>
-    <div class="post-body">{{ post.post_body}}</div>
-        {% endfor %}
+    <pre class="post-body">{{post.post_body}}</div>
+
+      {% endfor %}
 
 {% endblock %}

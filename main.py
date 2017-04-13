@@ -55,11 +55,10 @@ class Posts(db.Model):  #database of previous and newly added posts
 
 class RecentPosts(webapp2.RequestHandler):
     def get(self):
-        query = Posts.all().order("-created") #query database to identify db entries in order of creation
+        query = Posts.all().order("-created")#query database to identify db entries in order of creation
         recent_posts = query.fetch(limit = 5) #assign the most recent 5 to the recent_posts variable
-
         t = jinja_env.get_template("frontpage.html") #get dat template
-        content = t.render(post = recent_posts) #render, passing in this info
+        content = t.render(posts = recent_posts) #render, passing in this info
         self.response.write(content)
 
 class ViewPostHandler(webapp2.RequestHandler):
