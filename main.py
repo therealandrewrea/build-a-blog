@@ -29,8 +29,8 @@ class Index(webapp2.RequestHandler):
 
 class NewPost(webapp2.RequestHandler):
     def get(self): #use thin newpost template -
-        new = jinja_env.get_template("newpost.html")
-        content = new.render()
+        t = jinja_env.get_template("newpost.html")
+        content = t.render()
         self.response.write(content)
 
     def post(self): #check and "create" post with a permalink
@@ -56,9 +56,10 @@ class Posts(db.Model):  #database of previous and newly added posts
 class RecentPosts(webapp2.RequestHandler):
     def get(self):
         query = Posts.all().order("-created") #query database to identify db entries in order of creation
-        recent_post = query.fetch(limit = 5) #assign the most recent 5 to the recent_posts variable
-        r = jinja_env.get_template("frontpage.html") #get dat template
-        content = r.render(post = recent_post) #render, passing in this info
+        recent_posts = query.fetch(limit = 5) #assign the most recent 5 to the recent_posts variable
+
+        t = jinja_env.get_template("frontpage.html") #get dat template
+        content = t.render(post = recent_posts) #render, passing in this info
         self.response.write(content)
 
 class ViewPostHandler(webapp2.RequestHandler):
